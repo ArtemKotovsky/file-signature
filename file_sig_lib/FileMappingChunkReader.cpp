@@ -22,7 +22,7 @@ namespace file_sig
     struct FileMappingChunkReader::Impl
     {
         std::mutex fileLock;
-        std::shared_ptr<FileMappingChunkReader> filePtrGuard;
+        std::shared_ptr<FileMappingChunkReader::Impl> filePtrGuard;
         utils::ScopedHandle<int, decltype(::close), ::close, -1> file;
         uint64_t fileSize = 0;
         uint64_t filePos = 0;
@@ -56,11 +56,11 @@ namespace file_sig
             THROW_ERRNO_IF(m_impl->filePtr == MAP_FAILED, "mmap failed");
             madvise(m_impl->filePtr, m_impl->fileSize, MADV_SEQUENTIAL|MADV_WILLNEED);
             
-            m_impl->filePtrGuard.reset(this, [this](FileMappingChunkReader* pthis)
+            m_impl->filePtrGuard.reset(m_impl.get(), [](FileMappingChunkReader::Impl* pthis)
             {
-                if (pthis && pthis->m_impl->filePtr)
+                if (pthis)
                 {
-                    munmap(pthis->m_impl->filePtr, pthis->m_impl->fileSize);
+                    munmap(pthis->filePtr, pthis->fileSize);
                 }
             });
         }
@@ -93,7 +93,7 @@ namespace file_sig
         return true;
     }
 
-    void FileMappingChunkReader::freeChunk(const void * data, uint32_t /*size*/)
+    void FileMappingChunkReader::freeChunk(const void * data, uint32_t size)
     {
         if (!m_impl->filePtr)
         {
