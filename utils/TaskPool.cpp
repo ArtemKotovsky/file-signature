@@ -7,6 +7,7 @@
 //
 
 #include "TaskPool.hpp"
+#include <assert.h>
 
 namespace utils
 {

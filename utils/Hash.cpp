@@ -8,9 +8,12 @@
 
 #include "Hash.hpp"
 
+#pragma warning(push)
+#pragma warning(disable: 4244)
 #define CRC32_USE_LOOKUP_TABLE_SLICING_BY_8
 #include "Crc32.h"
 #include "picosha2.h"
+#pragma warning(pop)
 
 #include <sstream>
 #include <iomanip>

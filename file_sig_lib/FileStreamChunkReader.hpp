@@ -42,7 +42,7 @@ namespace file_sig
         FileStreamChunkReader& operator=(const FileStreamChunkReader&) = delete;
         
         FileStreamChunkReader(FileStreamChunkReader&&) = delete;
-        FileStreamChunkReader& operator=(FileStreamChunkReader&) = delete;
+        FileStreamChunkReader& operator=(FileStreamChunkReader&&) = delete;
         
         void stop(bool sync);
         

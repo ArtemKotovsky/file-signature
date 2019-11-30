@@ -2,3 +2,6 @@
 xcshareddata
 xcuserdata
 *.xcworkspace
+/.vs/
+/build/
+/file_signature/*.user

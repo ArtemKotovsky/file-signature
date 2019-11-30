@@ -12,8 +12,6 @@
 #include "ScopedHandle.hpp"
 
 #include <string>
-#include <mutex>
-#include <unistd.h>
 
 namespace file_sig
 {
@@ -32,19 +30,14 @@ namespace file_sig
         FileMappingChunkReader& operator=(const FileMappingChunkReader&) = delete;
         
         FileMappingChunkReader(FileMappingChunkReader&&) = delete;
-        FileMappingChunkReader& operator=(FileMappingChunkReader&) = delete;
+        FileMappingChunkReader& operator=(FileMappingChunkReader&&) = delete;
         
     private:
         bool getChunk(const void *& data, uint32_t& size, uint64_t& offset) override;
         void freeChunk(const void * data, uint32_t size) override;
         
     private:
-        std::mutex m_fileLock;
-        std::shared_ptr<FileMappingChunkReader> m_filePtrGuard;
-        utils::ScopedHandle<int, decltype(::close), ::close, -1> m_file;
-        uint64_t m_fileSize = 0;
-        uint64_t m_filePos = 0;
-        uint32_t m_chunkSize = 0;
-        uint8_t * m_filePtr = nullptr;
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
     };
 }

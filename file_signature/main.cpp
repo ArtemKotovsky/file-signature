@@ -15,6 +15,7 @@
 #include "FileStreamChunkReader.hpp"
 #include "FileMappingChunkReader.hpp"
 
+#include <iomanip>
 #include <iostream>
 #include <string>
 
@@ -237,7 +238,6 @@ int main(int argc, const char * argv[])
         
         const size_t filesize = utils::getFileSize(args.inFilePath);
         
-        std::cout << "Start time: " << utils::getLocalTime() << "\n";
         std::cout << "Filename: " << args.inFilePath << "\n";
         std::cout << "Filesize: " << filesize << "\n";
         std::cout << "Hash: " << args.hasher << "\n";
@@ -336,9 +336,7 @@ int main(int argc, const char * argv[])
         
         auto time = std::chrono::steady_clock::now() - startTime;
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(time).count();
-        
         std::cout << "Total time: " << timeToStr(seconds) << "\n";
-        std::cout << "End: " << utils::getLocalTime() << std::endl;
         
         return 0;
     }

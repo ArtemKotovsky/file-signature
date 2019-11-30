@@ -127,7 +127,7 @@ namespace file_sig
         return true;
     }
 
-    void FileStreamChunkReader::freeChunk(const void * data, uint32_t size)
+    void FileStreamChunkReader::freeChunk(const void * data, uint32_t /*size*/)
     {
         //
         // finds the chunk in the busy list
@@ -215,7 +215,7 @@ namespace file_sig
                 m_readyCv.notify_all();
             }
         }
-        catch (const std::exception& ex)
+        catch (const std::exception&)
         {
             std::lock_guard<std::mutex> lock(m_chunkMutex);
             m_exception = std::current_exception();

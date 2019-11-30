@@ -45,7 +45,7 @@ namespace file_sig
         SigPipeline& operator=(const SigPipeline&) = delete;
         
         SigPipeline(SigPipeline&&) = delete;
-        SigPipeline& operator=(SigPipeline&) = delete;
+        SigPipeline& operator=(SigPipeline&&) = delete;
         
         void setRecordsCallback(RecordCb cb);
         

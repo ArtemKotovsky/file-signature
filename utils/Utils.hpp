@@ -38,5 +38,4 @@ namespace utils
     }
 
     uint64_t getFileSize(const std::string& filepath);
-    std::string getLocalTime();
 }

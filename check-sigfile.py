@@ -50,7 +50,7 @@ def checkFile(filename):
         if os.path.getsize(filename) != filesize:
             raise Exception("invalid file size {0}".format(filesize))
             
-        with open(filename, "br") as bin:
+        with open(filename, "rb") as bin:
         
             line = file.readline()
             

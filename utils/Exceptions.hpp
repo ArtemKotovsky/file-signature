@@ -24,3 +24,12 @@
     $st << THROW_LINE << $mess;                                 \
     throw std::system_error($ec, $st.str());                    \
 }
+
+#define THROW_WIN_IF($cond, $mess) if ($cond) { THROW_WIN($mess); }
+#define THROW_WIN($mess) THROW_WIN_ERROR(::GetLastError(), $mess);
+#define THROW_WIN_ERROR($err, $mess) {                          \
+    std::error_code $ec($err, std::generic_category());         \
+    std::stringstream $st;                                      \
+    $st << THROW_LINE << $mess;                                 \
+    throw std::system_error($ec, $st.str());                    \
+}

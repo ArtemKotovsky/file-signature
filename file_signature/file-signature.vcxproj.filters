@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="crc32">
+      <UniqueIdentifier>{fcd18f7b-8c4a-4026-88f3-5e66b2e3b6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PicoSHA2">
+      <UniqueIdentifier>{19affd18-6ddf-4c57-842a-ec90643ac6be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="file_sig_lib">
+      <UniqueIdentifier>{f2c5607e-ca5e-475e-869f-498bd0f41a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{9452299b-7b9e-4bd2-b239-063b81c4c177}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\3rdParty\crc32\Crc32.cpp">
+      <Filter>crc32</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\file_sig_lib\ChunkReader.cpp">
+      <Filter>file_sig_lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\file_sig_lib\FileStreamChunkReader.cpp">
+      <Filter>file_sig_lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\file_sig_lib\SigPipeline.cpp">
+      <Filter>file_sig_lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\Hash.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\TaskPool.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\Utils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\file_sig_lib\FileMappingChunkReaderWindows.cpp">
+      <Filter>file_sig_lib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\3rdParty\crc32\Crc32.h">
+      <Filter>crc32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\PicoSHA2\picosha2.h">
+      <Filter>PicoSHA2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\file_sig_lib\ChunkReader.hpp">
+      <Filter>file_sig_lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\file_sig_lib\FileStreamChunkReader.hpp">
+      <Filter>file_sig_lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\file_sig_lib\SigPipeline.hpp">
+      <Filter>file_sig_lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\file_sig_lib\SigRecords.hpp">
+      <Filter>file_sig_lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\Conio.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\Exceptions.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\Hash.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\ScopedHandle.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\TaskPool.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\Utils.hpp">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\file_sig_lib\FileMappingChunkReader.hpp">
+      <Filter>file_sig_lib</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
