@@ -9,7 +9,7 @@ FILESIZE = "Filesize: "
 HASH = "Hash: "
 
 def crc32(data):
-    return hex(zlib.crc32(data) & 0xffffffff).lower()[2:]
+    return "{0:08x}".format(zlib.crc32(data) & 0xffffffff).lower()
     
 def sha2(data):
     return hashlib.sha256(data).hexdigest()

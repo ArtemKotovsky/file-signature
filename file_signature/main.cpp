@@ -215,8 +215,8 @@ namespace
 
         if (seconds > 60)
         {
-            st << (seconds % 60) << " minute(s) ";
-            seconds /= 60;
+            st << (seconds / 60) << " minute(s) ";
+            seconds = seconds % 60;
         }
         
         st << seconds << " second(s)";
