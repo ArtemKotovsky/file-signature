@@ -250,6 +250,16 @@ namespace file_sig
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_onHashRecord = std::move(cb);
+        
+        if (m_onHashRecord)
+        {
+            HashRecord record;
+            while (tryPopNextRecord(record))
+            {
+                m_onHashRecord(std::move(record));
+            }
+        }
+        
     }
 
     template<typename SigHashType>

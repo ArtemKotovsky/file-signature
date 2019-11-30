@@ -21,6 +21,8 @@ namespace file_sig
         threadsCount = std::max(threadsCount, 1u);
         m_pool.reserve(threadsCount);
         
+        m_activeThreads = threadsCount;
+        
         for (size_t i = 0; i < threadsCount; ++i)
         {
             m_pool.push_back(std::async(std::launch::async,
@@ -32,7 +34,7 @@ namespace file_sig
     SigPipeline::~SigPipeline()
     {
         m_records.setCleanup();
-        waitAllThreads(true);
+        waitAllThreads();
     }
 
     void SigPipeline::setRecordsCallback(RecordCb cb)
@@ -46,7 +48,7 @@ namespace file_sig
         
         if (sync)
         {
-            waitAllThreads(true);
+            waitAllThreads();
             m_records.checkException();
         }
     }
@@ -86,7 +88,7 @@ namespace file_sig
             m_records.setException(std::current_exception());
         }
         
-        if (1 == waitAllThreads(false))
+        if (1 == m_activeThreads--)
         {
             //
             // it is the latest thread
@@ -96,22 +98,11 @@ namespace file_sig
         }
     }
 
-    uint32_t SigPipeline::waitAllThreads(bool sync) const
+    void SigPipeline::waitAllThreads() const
     {
-        uint32_t activeThreads = 0;
-        
         for (const auto& thread : m_pool)
         {
-            if (sync)
-            {
-                thread.wait();
-            }
-            else if (std::future_status::timeout == thread.wait_for(std::chrono::seconds(0)))
-            {
-                activeThreads += 1;
-            }
+            thread.wait();
         }
-        
-        return activeThreads;
     }
 }

@@ -7,6 +7,7 @@
 //
 
 #include "Utils.hpp"
+#include "Exceptions.hpp"
 
 #include <time.h>
 #include <fstream>
@@ -16,8 +17,8 @@ namespace utils
     uint64_t getFileSize(const std::string& filepath)
     {
         std::ifstream file;
-        file.exceptions(std::ios_base::badbit | std::ios_base::failbit);
-        file.open(filepath, std::ios_base::binary | std::ios_base::ate);
+        file.open(filepath, std::ios::binary | std::ios::ate);
+        THROW_IF(!file, "Cannot open " << filepath);
         return file.tellg();
     }
 

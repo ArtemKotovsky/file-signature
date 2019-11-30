@@ -8,7 +8,7 @@
 
 #include "Hash.hpp"
 
-#define CRC32_USE_LOOKUP_TABLE_SLICING_BY_16
+#define CRC32_USE_LOOKUP_TABLE_SLICING_BY_8
 #include "Crc32.h"
 #include "picosha2.h"
 

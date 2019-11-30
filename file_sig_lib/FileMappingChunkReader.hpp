@@ -24,7 +24,9 @@ namespace file_sig
     class FileMappingChunkReader : public ChunkReader
     {
     public:
-        FileMappingChunkReader(const std::string& fileName, uint32_t chunkSize);
+        FileMappingChunkReader(const std::string& fileName,
+                               uint32_t chunkSize,
+                               bool mapAllFile);
         
         FileMappingChunkReader(const FileMappingChunkReader&) = delete;
         FileMappingChunkReader& operator=(const FileMappingChunkReader&) = delete;
@@ -38,9 +40,11 @@ namespace file_sig
         
     private:
         std::mutex m_fileLock;
+        std::shared_ptr<FileMappingChunkReader> m_filePtrGuard;
         utils::ScopedHandle<int, decltype(::close), ::close, -1> m_file;
         uint64_t m_fileSize = 0;
         uint64_t m_filePos = 0;
         uint32_t m_chunkSize = 0;
+        uint8_t * m_filePtr = nullptr;
     };
 }

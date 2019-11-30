@@ -55,10 +55,11 @@ namespace file_sig
         
     private:
         void hasherThread();
-        uint32_t waitAllThreads(bool sync) const;
+        void waitAllThreads() const;
         
     private:
         std::vector<std::future<void>> m_pool;
+        std::atomic<uint32_t> m_activeThreads{};
         ChunkReader& m_reader;
         Hasher m_hasher;
         Records m_records;

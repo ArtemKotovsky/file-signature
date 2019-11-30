@@ -19,9 +19,12 @@ namespace file_sig
                                                  uint32_t cachedChunksCount,
                                                  uint32_t chunkSize)
     {
-        m_file.open(fileName, std::ios_base::binary);
+        m_file.open(fileName, std::ios::binary);
         THROW_IF(!m_file.is_open(), "Cannot open " << fileName);
-        m_file.exceptions(std::ios_base::badbit);
+        m_file.exceptions(std::ios::badbit);
+        
+        m_fileIo.resize(1024 * 1024);
+        m_file.rdbuf()->pubsetbuf(m_fileIo.data(), m_fileIo.size());
         
         //
         // create 'cachedChunksCount' free chunks

@@ -35,18 +35,18 @@ namespace
         void help()
         {
             std::cout << "Usage: \n";
-            std::cout << "  --file=<file path>      - path to file than the signature will be calculated for\n";
-            std::cout << "  --chunk-size=<bytes>    - optional, default: 1MB\n";
-            std::cout << "                            buffer size that hash will be calculated for\n";
-            std::cout << "                            The tool is NOT adopted for huge chunk size\n";
-            std::cout << "  --out=<out file>        - optional, default: <file path>.signature\n";
-            std::cout << "                            out file with calculated signature\n";
-            std::cout << "                            If the file exists it will be rewritten\n";
-            std::cout << "  --hash=<sha2|crc32>     - optional, default: srs32\n";
-            std::cout << "                            hash type for one chunk\n";
-            std::cout << "  --reader=<map|stream>   - optional, default: stream\n";
-            std::cout << "                            opening method for <file path>\n";
-            std::cout << "  --verbose               - optional, detailed output\n";
+            std::cout << "  --file=<file path>            - path to file than the signature will be calculated for\n";
+            std::cout << "  --chunk-size=<bytes>          - optional, default: 1MB\n";
+            std::cout << "                                  buffer size that hash will be calculated for\n";
+            std::cout << "                                  The tool is NOT adopted for huge chunk size\n";
+            std::cout << "  --out=<out file>              - optional, default: <file path>.signature\n";
+            std::cout << "                                  out file with calculated signature\n";
+            std::cout << "                                  If the file exists it will be rewritten\n";
+            std::cout << "  --hash=<sha2|crc32>           - optional, default: srs32\n";
+            std::cout << "                                  hash type for one chunk\n";
+            std::cout << "  --reader=<map|mapall|stream>  - optional, default: stream\n";
+            std::cout << "                                  opening method for <file path>\n";
+            std::cout << "  --verbose                     - optional, detailed output\n";
         }
         
         bool parseArg(const std::string& argv, const std::string& prefix, std::string& value) const
@@ -117,12 +117,12 @@ namespace
                 chunkSize = kDefaultChunkSize;
             }
             
-            if (chunkSize > kHugeChunkSize && reader != "map")
+            if (chunkSize > kHugeChunkSize && reader != "map" && reader != "reader")
             {
                 std::cout << "\nWARNING! The chunk size is huge! Using --reader=map is recommending.\n\n";
             }
             
-            if (chunkSize % 4096 != 0 && (hasher == "crc32" || reader == "map"))
+            if (chunkSize % 4096 != 0 && (hasher == "crc32" || reader == "map" || reader == "mapall"))
             {
                 std::cout << "\nWARNING! The chunk size is not aligned to page size.";
                 std::cout << "\n         Performance might be lower!";
@@ -146,7 +146,7 @@ namespace
                 //
                 return std::thread::hardware_concurrency();
             }
-            else if (reader == "map")
+            else if (reader == "map" || reader == "mapall")
             {
                 //
                 // For the current implementation,
@@ -189,7 +189,11 @@ namespace
             }
             else if (reader == "map")
             {
-                obj.reset(new file_sig::FileMappingChunkReader(inFilePath, chunkSize));
+                obj.reset(new file_sig::FileMappingChunkReader(inFilePath, chunkSize, false));
+            }
+            else if (reader == "mapall")
+            {
+                obj.reset(new file_sig::FileMappingChunkReader(inFilePath, chunkSize, true));
             }
             
             THROW_IF(!obj, "Unknown reader type: " << reader);
@@ -244,8 +248,8 @@ int main(int argc, const char * argv[])
         file_sig::SigPipeline pipeline(*reader, hasher, args.getWorkerThreads());
         
         std::ofstream out;
-        out.exceptions(std::ios_base::badbit | std::ios_base::failbit);
-        out.open(args.outFilePath, std::ios_base::out | std::ios_base::trunc);
+        out.exceptions(std::ios::badbit | std::ios::failbit);
+        out.open(args.outFilePath, std::ios::out | std::ios::trunc);
         
         out << "Filename: " << args.inFilePath << "\r\n";
         out << "Filesize: " << std::dec << filesize << "\r\n";
@@ -338,7 +342,7 @@ int main(int argc, const char * argv[])
         
         return 0;
     }
-    catch (const std::ios_base::failure& ex)
+    catch (const std::ios::failure& ex)
     {
         std::cerr << "\nIO error: " << ex.code() << " " << ex.what() << std::endl;
     }

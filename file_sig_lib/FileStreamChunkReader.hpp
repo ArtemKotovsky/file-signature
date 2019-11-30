@@ -65,5 +65,6 @@ namespace file_sig
         std::mutex m_threadMutex;
         std::future<void> m_thread;
         std::ifstream m_file;
+        std::vector<char> m_fileIo;
     };
 }
